@@ -25,12 +25,12 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-      working-directory: ./CISE_Repos/worksheets/worksheet2/cise_ass1a_worksheet2-frontend
+      working-directory: ./worksheets/worksheet2/cise_ass1a_worksheet2-frontend
 
     - name: Run the tests
       run: npm test
-      working-directory: ./CISE_Repos/worksheets/worksheet2/cise_ass1a_worksheet2-frontend
+      working-directory: ./worksheets/worksheet2/cise_ass1a_worksheet2-frontend
 
     - name: Build
       run: npm run build
-      working-directory: ./CISE_Repos/worksheets/worksheet2/cise_ass1a_worksheet2-frontend
+      working-directory: ./worksheets/worksheet2/cise_ass1a_worksheet2-frontend
