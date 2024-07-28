@@ -12,25 +12,28 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [16.x]
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
     - name: Set up Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
 
     - name: Install dependencies
-      run: npm install
-      working-directory: ./CISE_Repos/worksheets/worksheet2/cise_ass1a_worksheet2-frontend
+      run: |
+        cd ./CISE_Repos/worksheets/worksheet2/cise_ass1a_worksheet2-frontend
+        npm install
 
     - name: Run the tests
-      run: npm test
-      working-directory: ./CISE_Repos/worksheets/worksheet2/cise_ass1a_worksheet2-frontend
+      run: |
+        cd ./CISE_Repos/worksheets/worksheet2/cise_ass1a_worksheet2-frontend
+        npm test
 
     - name: Build
-      run: npm run build
-      working-directory: ./CISE_Repos/worksheets/worksheet2/cise_ass1a_worksheet2-frontend
+      run: |
+        cd ./CISE_Repos/worksheets/worksheet2/cise_ass1a_worksheet2-frontend
+        npm run build
