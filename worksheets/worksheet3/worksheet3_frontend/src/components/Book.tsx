@@ -4,14 +4,14 @@ export type Book = {
     isbn?: string;
     author?: string;
     description?: string;
-    published_date?:Date;
+    published_date?: Date;
     publisher?: string;
     updated_date?: Date;
-}
+};
 
 export const DefaultEmptyBook: Book = {
-    _id: undefined,
-    title:'',
+    _id: undefined, 
+    title: '', 
     isbn: '',
     author: '',
     description: '',

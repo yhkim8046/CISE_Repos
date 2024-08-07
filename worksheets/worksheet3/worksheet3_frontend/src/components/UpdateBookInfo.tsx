@@ -9,7 +9,7 @@ function UpdateBookInfo() {
   const router = useRouter();
 
   useEffect(() => {
-    fetch(`http://localhost:8082/api/books/${id}`)
+    fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/api/books/${id}`)
     .then((res) => {
         return res.json();
       })
@@ -32,7 +32,7 @@ function UpdateBookInfo() {
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    fetch(`http://localhost:8082/api/books/${id}`, {method: 'PUT', headers: {"Content-Type": "application/json"}, body: JSON.stringify(book)})
+    fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/api/books/${id}`, {method: 'PUT', headers: {"Content-Type": "application/json"}, body: JSON.stringify(book)})
       .then((res) => {
         router.push(`/show-book/${id}`);
       })
