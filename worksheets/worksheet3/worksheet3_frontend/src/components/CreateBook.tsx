@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Book, DefaultEmptyBook } from "./Book";
 
+
 const CreateBookComponent = () => {
   const navigate = useRouter();
 
@@ -15,7 +16,7 @@ const CreateBookComponent = () => {
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     console.log(book);
-    fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/api/books/${id}`, {method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify(book)})
+    fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/api/books", {method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify(book)})
       .then((res) => {
         console.log(res);
         setBook(DefaultEmptyBook);
@@ -26,6 +27,7 @@ const CreateBookComponent = () => {
         console.log('Error from CreateBook: ' + err);
       });
   };
+
 
 
     return (
