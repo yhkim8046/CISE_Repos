@@ -1,35 +1,32 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { ChangeEvent, FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Book, DefaultEmptyBook } from "./Book";
 
 const CreateBookComponent = () => {
-    const navigate = useRouter();
+  const navigate = useRouter();
 
-    const [book, setBook] = useState<Book>(DefaultEmptyBook);
+  const [book, setBook] = useState<Book>(DefaultEmptyBook);
 
-    const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setBook({ ...book, [event.target.name]: event.target.value });
-    }
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setBook({ ...book, [event.target.name]: event.target.value });
+  };
 
-    const onSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        console.log(book);
-        fetch("http://localhost:8082/api/books", {
-            method: 'POST', headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(book)
-        })
-            .then((res) => {
-                console.log(res);
-                setBook(DefaultEmptyBook);
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    console.log(book);
+    fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/api/books/${id}`, {method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify(book)})
+      .then((res) => {
+        console.log(res);
+        setBook(DefaultEmptyBook);
+        // Push to /
+        navigate.push("/");
+      })
+      .catch((err) => {
+        console.log('Error from CreateBook: ' + err);
+      });
+  };
 
-                //push to /
-                navigate.push("/");
-            })
-            .catch((err) => {
-                console.log("Error from CreateBook:" + err);
-            });
-    };
 
     return (
         <div className="CreateBook">
