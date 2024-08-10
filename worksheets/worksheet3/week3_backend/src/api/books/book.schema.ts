@@ -17,13 +17,13 @@ export class Book {
   @Prop()
   description: string;
 
-  @Prop({type: Date})
+  @Prop({ type: Date })
   published_date: Date;
 
   @Prop()
   publisher: string;
 
-  @Prop({type: Date, default: Date.now})
+  @Prop({ type: Date, default: Date.now })
   updated_date: Date;
 }
 
