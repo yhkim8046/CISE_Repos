@@ -1,11 +1,11 @@
-import { GetStaticProps, NextPage } from "next";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import SortableTable from "@/components/table/SortableTable";
-import data from "@/utils/dummydata";
 
 interface ArticlesInterface {
   id: string;
   title: string;
-  authors: string;
+  author: string;
   source: string;
   pubyear: string;
   doi: string;
@@ -13,14 +13,22 @@ interface ArticlesInterface {
   evidence: string;
 }
 
-type ArticlesProps = {
-  articles: ArticlesInterface[];
-};
+const Articles: React.FC = () => {
+  const [articles, setArticles] = useState<ArticlesInterface[]>([]);
 
-const Articles: NextPage<ArticlesProps> = ({ articles }) => {
+  useEffect(() => {
+    axios.get('http://localhost:8082/api/articles/')
+      .then(response => {
+        setArticles(response.data);
+      })
+      .catch(error => {
+        console.error("Error fetching articles:", error);
+      });
+  }, []);
+
   const headers: { key: keyof ArticlesInterface; label: string }[] = [
     { key: "title", label: "Title" },
-    { key: "authors", label: "Authors" },
+    { key: "author", label: "Authors" },
     { key: "source", label: "Source" },
     { key: "pubyear", label: "Publication Year" },
     { key: "doi", label: "DOI" },
@@ -37,26 +45,4 @@ const Articles: NextPage<ArticlesProps> = ({ articles }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps<ArticlesProps> = async (_) => {
-  // Map the data to ensure all articles have consistent property names
-  const articles = data.map((article) => ({
-    id: article.id ?? article._id,
-    title: article.title,
-    authors: article.authors,
-    source: article.source,
-    pubyear: article.pubyear,
-    doi: article.doi,
-    claim: article.claim,
-    evidence: article.evidence,
-  }));
-
-
-  return {
-    props: {
-      articles,
-    },
-  };
-};
-
 export default Articles;
-

@@ -1,50 +1,36 @@
 import { FormEvent, useState } from "react";
+import axios from "axios";  
 import formStyles from "../../styles/Form.module.scss";
 
 const NewDiscussion = () => {
   const [title, setTitle] = useState("");
-  const [authors, setAuthors] = useState<string[]>([]);
+  const [author, setAuthor] = useState("");  
   const [source, setSource] = useState("");
-  const [pubYear, setPubYear] = useState<number>(0);
+  const [pubyear, setPubyear] = useState<string>("");  
   const [doi, setDoi] = useState("");
-  const [summary, setSummary] = useState("");
-  const [linkedDiscussion, setLinkedDiscussion] = useState("");
+  const [claim, setClaim] = useState("");  
+  const [evidence, setEvidence] = useState("");  
 
   const submitNewArticle = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log(
-      JSON.stringify({
-        title,
-        authors,
-        source,
-        publication_year: pubYear,
-        doi,
-        summary,
-        linked_discussion: linkedDiscussion,
-      })
-    );
+    const newArticle = {
+      title,
+      author,
+      source,
+      pubyear,  
+      doi,
+      claim,  
+      evidence  
+    };
+
+    try {
+      const response = await axios.post('http://localhost:8082/api/articles/', newArticle);
+      console.log('Article added successfully:', response.data);
+    } catch (error) {
+      console.error('Error adding article:', error);
+    }
   };
-
-  // Some helper methods for the authors array
-
-  const addAuthor = () => {
-    setAuthors(authors.concat([""]));
-  };
-
-  const removeAuthor = (index: number) => {
-    setAuthors(authors.filter((_, i) => i !== index));
-  };
-
-  const changeAuthor = (index: number, value: string) => {
-    setAuthors(
-      authors.map((oldValue, i) => {
-        return index === i ? value : oldValue;
-      })
-    );
-  };
-
-  // Return the full form
 
   return (
     <div className="container">
@@ -62,36 +48,14 @@ const NewDiscussion = () => {
           }}
         />
 
-        <label htmlFor="author">Authors:</label>
-        {authors.map((author, index) => {
-          return (
-            <div key={`author ${index}`} className={formStyles.arrayItem}>
-              <input
-                type="text"
-                name="author"
-                value={author}
-                onChange={(event) => changeAuthor(index, event.target.value)}
-                className={formStyles.formItem}
-              />
-              <button
-                onClick={() => removeAuthor(index)}
-                className={formStyles.buttonItem}
-                style={{ marginLeft: "3rem" }}
-                type="button"
-              >
-                -
-              </button>
-            </div>
-          );
-        })}
-        <button
-          onClick={() => addAuthor()}
-          className={formStyles.buttonItem}
-          style={{ marginLeft: "auto" }}
-          type="button"
-        >
-          +
-        </button>
+        <label htmlFor="author">Author:</label> {/* 필드명 수정 */}
+        <input
+          type="text"
+          name="author"
+          value={author}  // 배열이 아닌 단일 문자열로 처리
+          onChange={(event) => setAuthor(event.target.value)}
+          className={formStyles.formItem}
+        />
 
         <label htmlFor="source">Source:</label>
         <input
@@ -105,21 +69,14 @@ const NewDiscussion = () => {
           }}
         />
 
-        <label htmlFor="pubYear">Publication Year:</label>
+        <label htmlFor="pubyear">Publication Year:</label> {/* 필드명 수정 */}
         <input
           className={formStyles.formItem}
-          type="number"
+          type="text"  // 문자열로 처리
           name="pubYear"
           id="pubYear"
-          value={pubYear}
-          onChange={(event) => {
-            const val = event.target.value;
-            if (val === "") {
-              setPubYear(0);
-            } else {
-              setPubYear(parseInt(val));
-            }
-          }}
+          value={pubyear}
+          onChange={(event) => setPubyear(event.target.value)}  // 문자열로 처리
         />
 
         <label htmlFor="doi">DOI:</label>
@@ -134,12 +91,24 @@ const NewDiscussion = () => {
           }}
         />
 
-        <label htmlFor="summary">Summary:</label>
+        <label htmlFor="claim">Claim:</label> {/* 추가된 필드 */}
+        <input
+          className={formStyles.formItem}
+          type="text"
+          name="claim"
+          id="claim"
+          value={claim}
+          onChange={(event) => {
+            setClaim(event.target.value);
+          }}
+        />
+
+        <label htmlFor="evidence">Evidence:</label> {/* 추가된 필드 */}
         <textarea
           className={formStyles.formTextArea}
-          name="summary"
-          value={summary}
-          onChange={(event) => setSummary(event.target.value)}
+          name="evidence"
+          value={evidence}
+          onChange={(event) => setEvidence(event.target.value)}
         />
 
         <button className={formStyles.formItem} type="submit">
