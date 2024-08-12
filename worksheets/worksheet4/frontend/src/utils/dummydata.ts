@@ -50,4 +50,4 @@ const data = [
       evidence: "weak against",
     },
   ];
-export default data;
+    export default data;

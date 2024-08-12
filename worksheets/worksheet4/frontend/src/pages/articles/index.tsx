@@ -1,6 +1,6 @@
 import { GetStaticProps, NextPage } from "next";
-import SortableTable from "../../components/table/SortableTable";
-import data from "../../utils/dummydata";
+import SortableTable from "@/components/table/SortableTable";
+import data from "@/utils/dummydata";
 
 interface ArticlesInterface {
   id: string;
@@ -59,3 +59,4 @@ export const getStaticProps: GetStaticProps<ArticlesProps> = async (_) => {
 };
 
 export default Articles;
+

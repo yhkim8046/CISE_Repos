@@ -36,4 +36,3 @@ const NavItem = ({ children, route, end, dropdown, onClick, style }: Props) => {
 };
 
 export default NavItem;
-

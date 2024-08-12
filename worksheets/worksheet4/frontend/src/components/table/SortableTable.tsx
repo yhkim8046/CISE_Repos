@@ -27,3 +27,4 @@ const SortableTable: React.FC<SortableTableProps> = ({ headers, data }) => (
 );
 
 export default SortableTable;
+
