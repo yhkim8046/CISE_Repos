@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Article } from "../article.schema";
+import { Article } from "../models/article.schema";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { CreateArticleDto } from "../dto/createArticle.dto";
